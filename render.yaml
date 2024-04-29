@@ -5,4 +5,4 @@ services:
     port: 5000 
     env:
       - key: WORKER_TIMEOUT
-        value: "180"  # Aumentar el tiempo de espera a 180 segundos (3 minutos)
+        value: "240"  # Aumentar el tiempo de espera a 180 segundos (3 minutos)
