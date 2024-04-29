@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNIST Number Recognition</title>
+    <!-- Agregar enlaces a los archivos CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Personaliza los estilos adicionales aquí si es necesario */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+    font-size: 35px;
+    margin-bottom: 20px;
+    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 2px solid black;
+    display: inline-block; /* Agrega esto para que el borde rodee tanto el texto como el contenedor */
+    padding: 10px; /* Opcional: agrega espacio entre el texto y el borde */
+}
+        #imagePreview {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        #result {
+            font-size: 20px;
+        }
+        #integrantes {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #integrantes > div {
+            margin-bottom: 10px;
+        }
+        .blue-green-bg {
+    background: linear-gradient(to bottom right, #00A1C2, #00C47F);
+}
+    </style>
+</head>
+<body class="blue-green-bg">
+    <div id="container" class="container">
+        <h1 class="mt-5">Universidad Técnica del Norte</h1>
+        <div id="integrantes" class="mb-4">
+            <div>Cuascota Roberto</div>
+            <div>De la Torre Daniel</div>
+            <div>Ipiales Carlos</div>
+            <div>Pule Victor</div>
+            <div>Sanche Rivaldo</div>
+        </div>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="image" id="imageInput" class="form-control mb-3" accept="image/*" onchange="previewImage(event)">
+            <button type="submit" class="btn btn-primary mb-3">Predict</button>
+        </form>
+        <img id="imagePreview" src="#" alt="Image Preview" class="mb-3">
+        <div id="result"></div>
+    </div>
+
+    <!-- Agregar enlaces a los archivos JS de Bootstrap y Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+        function previewImage(event) {
+            var image = document.getElementById('imagePreview');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario
+            var formData = new FormData(this);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Numero Predecido: ' + data.predicted_number;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
