@@ -1,7 +1,0 @@
-name: Numeros
-services:
-  - name: web
-    env:
-      PORT: 8080
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
